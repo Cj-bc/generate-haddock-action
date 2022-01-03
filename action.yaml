@@ -1,0 +1,6 @@
+# action.yml
+name: 'Generate haddock'
+description: 'Generate haddock page for the project'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
