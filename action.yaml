@@ -6,17 +6,22 @@ runs:
   steps:
     - uses: actions/checkout@v2
     - name: Prepare git config
+      shell: bash
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
     - name: Prepare destination directory
+      shell: bash
       run: git worktree add haddock haddock
     - name: Generate haddock
+      shell: bash
       run: stack haddock --haddock-arguments --odir=haddock
     - name: Commit new document
+      shell: bash
       run: |
         cd haddock
         git add *
         git commit -m "CI: update haddock document"
     - name: Publish
+      shell: bash
       run: git push origin haddock
