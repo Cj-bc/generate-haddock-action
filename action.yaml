@@ -2,5 +2,21 @@
 name: 'Generate haddock'
 description: 'Generate haddock page for the project'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v2
+    - name: Prepare git config
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+    - name: Prepare destination directory
+      run: git worktree add haddock haddock
+    - name: Generate haddock
+      run: stack haddock --haddock-arguments --odir=haddock
+    - name: Commit new document
+      run: |
+        cd haddock
+        git add *
+        git commit -m "CI: update haddock document"
+    - name: Publish
+      run: git push origin haddock
